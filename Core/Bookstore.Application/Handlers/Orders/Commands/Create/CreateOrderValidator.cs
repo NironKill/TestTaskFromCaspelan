@@ -13,8 +13,8 @@ namespace Bookstore.Application.Handlers.Orders.Commands.Create
         {
             _context = context;
 
-            RuleFor(request => request.OrderIds).NotNull().WithErrorCode($"{StatusCode.BadRequest.GetHashCode()}");
-            RuleFor(request => request.OrderIds).MustAsync(BookExists)
+            RuleFor(request => request.BookIds).NotNull().WithErrorCode($"{StatusCode.BadRequest.GetHashCode()}");
+            RuleFor(request => request.BookIds).MustAsync(BookExists)
                 .WithMessage("You have specified a non-existent book.")
                 .WithErrorCode($"{StatusCode.NotFound.GetHashCode()}");
         }

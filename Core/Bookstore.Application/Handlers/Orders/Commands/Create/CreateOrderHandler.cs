@@ -19,7 +19,7 @@ namespace Bookstore.Application.Handlers.Orders.Commands.Create
 
         public async Task<Guid> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            ICollection<BookResponse> books = await _book.GetAll(x => request.OrderIds.Contains(x.Id), entity => new BookResponse
+            ICollection<BookResponse> books = await _book.GetAll(x => request.BookIds.Contains(x.Id), entity => new BookResponse
             {
                 Id = entity.Id,
                 Author = entity.Author,

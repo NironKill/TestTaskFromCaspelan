@@ -4,5 +4,183 @@
         <name>Bookstore.WebAPI</name>
     </assembly>
     <members>
+        <member name="M:Bookstore.WebAPI.Controllers.BookController.Create(Bookstore.Application.Handlers.Books.Commands.Create.CreateBookCommand)">
+             <summary>
+             Adds a book
+             </summary>
+             <remarks>
+             Sample request:
+             POST /Book/Create
+             {
+            
+                 Price: "book price (decimal)",
+                 Title: "book title (string)",
+                 ISBN: "ISBN of the book (string)",
+                 Author: "author of the book (string)",
+                 Publisher: "publisher of the book (string)",
+                 ImageUrl: "link to the book cover (string)"
+             }
+             </remarks>
+             <param name="command">CreateBookCommand object</param>
+             <returns>Returns Guid</returns>
+             <response code="201">Success</response>
+             <response code="400">The server could not understand the request due to incorrect syntax</response>
+        </member>
+        <member name="M:Bookstore.WebAPI.Controllers.BookController.Delete(System.Guid)">
+            <summary>
+            Delete the book
+            </summary>
+            <remarks>
+            Sample request:
+            DELETE /Book/Delete/id
+            </remarks>
+            <param name="id">Book id (guid)</param>
+            <returns>Returns bool</returns>
+            <response code="200">Success</response>
+            <response code="400">The server could not understand the request due to incorrect syntax</response>
+            <response code="404">The server can not find the requested resource.</response>
+        </member>
+        <member name="M:Bookstore.WebAPI.Controllers.BookController.Patch(System.Guid,Bookstore.Application.DTOs.Book.BookUpdateDTO)">
+             <summary>
+             Change the price of the book
+             </summary>
+             <remarks>
+             Sample request:
+             PATCH /Book/Patch/id
+             {
+            
+                 Price: "book price (decimal)",
+             }
+             </remarks>
+             <param name="id">Book id (guid)</param>
+             <returns>Returns BookResponse</returns>
+             <response code="200">Success</response>
+             <response code="400">The server could not understand the request due to incorrect syntax</response>
+             <response code="404">The server can not find the requested resource.</response>
+        </member>
+        <member name="M:Bookstore.WebAPI.Controllers.BookController.GetAll">
+            <summary>
+            Gets a list of all books
+            </summary>
+            <remarks>
+            Sample request:
+            GET /Book/GetAll
+            </remarks>
+            <returns>Returns BookResponse</returns>
+            <response code="200">Success</response>
+        </member>
+        <member name="M:Bookstore.WebAPI.Controllers.BookController.GetById(System.Guid)">
+            <summary>
+            Gets the book by ID
+            </summary>
+            <remarks>
+            Sample request:
+            GET /Book/GetById/id
+            </remarks>
+            <param name="id">Book id (guid)</param>
+            <returns>Returns BookResponse</returns>
+            <response code="200">Success</response>
+            <response code="400">The server could not understand the request due to incorrect syntax</response>
+            <response code="404">The server can not find the requested resource.</response>
+        </member>
+        <member name="M:Bookstore.WebAPI.Controllers.OrderController.Create(Bookstore.Application.Handlers.Orders.Commands.Create.CreateOrderCommand)">
+             <summary>
+             Creates the Order
+             </summary>
+             <remarks>
+             Sample request:
+             POST /Order/Create
+             {
+            
+                 OrderIds: "book IDs (HashSet'Guid')",
+             }
+             </remarks>
+             <param name="command">CreateOrderCommand object</param>
+             <returns>Returns Guid</returns>
+             <response code="201">Success</response>
+             <response code="400">The server could not understand the request due to incorrect syntax</response>
+        </member>
+        <member name="M:Bookstore.WebAPI.Controllers.OrderController.Delete(System.Guid)">
+            <summary>
+            Delete the order
+            </summary>
+            <remarks>
+            Sample request:
+            DELETE /Order/Delete/id
+            </remarks>
+            <param name="id">Order id (guid)</param>
+            <returns>Returns bool</returns>
+            <response code="200">Success</response>
+            <response code="400">The server could not understand the request due to incorrect syntax</response>
+            <response code="404">The server can not find the requested resource.</response>
+        </member>
+        <member name="M:Bookstore.WebAPI.Controllers.OrderController.GetAllByFilter(Bookstore.Application.Handlers.Orders.Queries.GetAll.GetAllOrderQuery)">
+            <summary>
+            Receives a list of all orders by filter
+            </summary>
+            <remarks>
+            Sample request:
+            GET /Order/GetAllByFilter?OrderNumberFrom=1&amp;OrderNumberTo=5&amp;OrderDateFrom=2025-07-31&amp;OrderDateTo=2025-07-31
+            
+            <h3>Filter Parameters</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>OrderNumberFrom</td>
+                  <td>integer</td>
+                  <td>Minimum order number (inclusive)</td>
+                </tr>
+                <tr>
+                  <td>OrderNumberTo</td>
+                  <td>integer</td>
+                  <td>Maximum order number (inclusive)</td>
+                </tr>
+                <tr>
+                  <td>OrderDateFrom</td>
+                  <td>date-time</td>
+                  <td>Start date of order period (inclusive)</td>
+                </tr>
+                <tr>
+                  <td>OrderDateTo</td>
+                  <td>date-time</td>
+                  <td>End date of order period (inclusive)</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <h3>Usage Notes</h3>
+            <ul>
+              <li>All parameters are optional</li>
+              <li>Date format should be ISO 8601 (e.g., YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)</li>
+              <li>If both date filters are provided, OrderDateFrom must be ≤ OrderDateTo</li>
+              <li>If both number filters are provided, OrderNumberFrom must be ≤ OrderNumberTo</li>
+            </ul>
+            </remarks>
+            <param name="request">GetAllOrderQuery object</param>
+            <returns>Returns OrderResponse</returns>
+            <response code="200">Success</response>
+            <response code="400">The server could not understand the request due to incorrect syntax</response>
+        </member>
+        <member name="M:Bookstore.WebAPI.Controllers.OrderController.GetById(System.Guid)">
+            <summary>
+            Gets the order by ID
+            </summary>
+            <remarks>
+            Sample request:
+            GET /Order/GetById/id
+            </remarks>
+            <param name="id">Order id (guid)</param>
+            <returns>Returns OrderResponse</returns>
+            <response code="200">Success</response>
+            <response code="400">The server could not understand the request due to incorrect syntax</response>
+            <response code="404">The server can not find the requested resource.</response>
+        </member>
     </members>
 </doc>

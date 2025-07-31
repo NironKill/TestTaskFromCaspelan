@@ -42,7 +42,7 @@ namespace Bookstore.Application.Repositories.Implementations
             if (query.OrderDateFrom is not null)
                 orderQuery = orderQuery.Where(x => x.OrderedIn >= query.OrderDateFrom).AsQueryable();
             if (query.OrderDateTo is not null)
-                orderQuery = orderQuery.Where(x => x.OrderedIn >= query.OrderDateTo).AsQueryable();
+                orderQuery = orderQuery.Where(x => x.OrderedIn <= query.OrderDateTo).AsQueryable();
 
             List<Order> orders = await orderQuery.ToListAsync();
             return orders.Select(map).ToList();
