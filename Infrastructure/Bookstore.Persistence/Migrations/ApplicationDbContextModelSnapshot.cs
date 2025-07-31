@@ -59,7 +59,7 @@ namespace Bookstore.Persistence.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("Bookstore.Domain.Entity.Cart", b =>
+            modelBuilder.Entity("Bookstore.Domain.Entity.BookOrder", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,13 +71,16 @@ namespace Bookstore.Persistence.Migrations
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Carts");
+                    b.ToTable("BookOrders");
                 });
 
             modelBuilder.Entity("Bookstore.Domain.Entity.Order", b =>
@@ -103,16 +106,16 @@ namespace Bookstore.Persistence.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Bookstore.Domain.Entity.Cart", b =>
+            modelBuilder.Entity("Bookstore.Domain.Entity.BookOrder", b =>
                 {
                     b.HasOne("Bookstore.Domain.Entity.Book", "Book")
-                        .WithMany("Carts")
+                        .WithMany("BookOrders")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Bookstore.Domain.Entity.Order", "Order")
-                        .WithMany("Carts")
+                        .WithMany("BookOrders")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -124,12 +127,12 @@ namespace Bookstore.Persistence.Migrations
 
             modelBuilder.Entity("Bookstore.Domain.Entity.Book", b =>
                 {
-                    b.Navigation("Carts");
+                    b.Navigation("BookOrders");
                 });
 
             modelBuilder.Entity("Bookstore.Domain.Entity.Order", b =>
                 {
-                    b.Navigation("Carts");
+                    b.Navigation("BookOrders");
                 });
 #pragma warning restore 612, 618
         }

@@ -11,6 +11,6 @@ namespace Bookstore.Domain.Entity
         public DateTime OrderedIn { get; set; }
 
         public ICollection<Book> Books { get; set; }
-        public ICollection<Cart> Carts { get; set; }
+        public ICollection<BookOrder> BookOrders { get; set; }
     }
 }

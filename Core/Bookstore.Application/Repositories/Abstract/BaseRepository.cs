@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace Bookstore.Application.Repositories.Abstract
 {
-    public abstract class BaseRepository<TEntity, TCommand, TQuery> : IBaseRepository<TEntity, TCommand, TQuery>
+    public abstract class BaseRepository<TEntity, TCommand, TResponse> : IBaseRepository<TEntity, TCommand, TResponse>
         where TEntity : BaseEntity
     {
         protected readonly IApplicationDbContext _context;
@@ -17,9 +17,9 @@ namespace Bookstore.Application.Repositories.Abstract
             _dbSet = context.Set<TEntity>();
         }
 
-        public virtual async Task<Guid> Create(TCommand dto, Func<TCommand, TEntity> map, CancellationToken cancellationToken)
+        public virtual async Task<Guid> Create(TCommand command, Func<TCommand, TEntity> map, CancellationToken cancellationToken)
         {
-            TEntity newEntity = map(dto);
+            TEntity newEntity = map(command);
 
             await _dbSet.AddAsync(newEntity, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
@@ -35,7 +35,7 @@ namespace Bookstore.Application.Repositories.Abstract
 
             return true;
         }
-        public virtual async Task<TQuery> Update(Expression<Func<TEntity, bool>> predicate, Action<TEntity> update, Func<TEntity, TQuery> map, CancellationToken cancellationToken)
+        public virtual async Task<TResponse> Update(Expression<Func<TEntity, bool>> predicate, Action<TEntity> update, Func<TEntity, TResponse> map, CancellationToken cancellationToken)
         {
             TEntity entity = await _dbSet.Where(predicate).FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
@@ -47,18 +47,18 @@ namespace Bookstore.Application.Repositories.Abstract
             return map(entity);
         }
 
-        public virtual async Task<TQuery> Get(Expression<Func<TEntity, bool>> predicate, Func<TEntity, TQuery> map, CancellationToken cancellationToken)
+        public virtual async Task<TResponse> Get(Expression<Func<TEntity, bool>> predicate, Func<TEntity, TResponse> map, CancellationToken cancellationToken)
         {
             TEntity entity = await _dbSet.Where(predicate).FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
             return map(entity);
         }
-        public virtual async Task<ICollection<TQuery>> GetAll(Func<TEntity, TQuery> map, CancellationToken cancellationToken)
+        public virtual async Task<ICollection<TResponse>> GetAll(Func<TEntity, TResponse> map, CancellationToken cancellationToken)
         {
             List<TEntity> entities = await _dbSet.ToListAsync(cancellationToken);
             return entities.Select(map).ToList();
         }
-        public virtual async Task<ICollection<TQuery>> GetAll(Expression<Func<TEntity, bool>> predicate, Func<TEntity, TQuery> map, CancellationToken cancellationToken)
+        public virtual async Task<ICollection<TResponse>> GetAll(Expression<Func<TEntity, bool>> predicate, Func<TEntity, TResponse> map, CancellationToken cancellationToken)
         {
             List<TEntity> entities = await _dbSet.Where(predicate).ToListAsync(cancellationToken);
             return entities.Select(map).ToList();

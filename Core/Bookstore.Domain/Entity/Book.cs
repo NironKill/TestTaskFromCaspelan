@@ -13,6 +13,6 @@ namespace Bookstore.Domain.Entity
         public string ImageUrl { get; set; }
 
         public ICollection<Order> Orders { get; set; }
-        public ICollection<Cart> Carts { get; set; }
+        public ICollection<BookOrder> BookOrders { get; set; }
     }
 }

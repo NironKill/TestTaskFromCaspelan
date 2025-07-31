@@ -8,7 +8,7 @@ namespace Bookstore.Persistence.Common
     {
         public DbSet<Book> Books { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<Cart> Carts { get; set; }
+        public DbSet<BookOrder> BookOrders { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 

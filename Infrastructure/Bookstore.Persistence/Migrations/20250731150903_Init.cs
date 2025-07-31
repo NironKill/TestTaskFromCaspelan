@@ -45,24 +45,25 @@ namespace Bookstore.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Carts",
+                name: "BookOrders",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    BookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Carts", x => x.Id);
+                    table.PrimaryKey("PK_BookOrders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Carts_Books_BookId",
+                        name: "FK_BookOrders_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Carts_Orders_OrderId",
+                        name: "FK_BookOrders_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
@@ -70,13 +71,13 @@ namespace Bookstore.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Carts_BookId",
-                table: "Carts",
+                name: "IX_BookOrders_BookId",
+                table: "BookOrders",
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Carts_OrderId",
-                table: "Carts",
+                name: "IX_BookOrders_OrderId",
+                table: "BookOrders",
                 column: "OrderId");
         }
 
@@ -84,7 +85,7 @@ namespace Bookstore.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Carts");
+                name: "BookOrders");
 
             migrationBuilder.DropTable(
                 name: "Books");

@@ -7,7 +7,7 @@ namespace Bookstore.Application.Interfaces
     {
         DbSet<Book> Books { get; set; }
         DbSet<Order> Orders { get; set; }
-        DbSet<Cart> Carts { get; set; }
+        DbSet<BookOrder> BookOrders { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
