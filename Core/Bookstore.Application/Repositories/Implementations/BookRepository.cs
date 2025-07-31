@@ -1,4 +1,5 @@
 ﻿using Bookstore.Application.Handlers.Books.Commands.Create;
+using Bookstore.Application.Handlers.Books.Queries.GetAll;
 using Bookstore.Application.Interfaces;
 using Bookstore.Application.Repositories.Abstract;
 using Bookstore.Application.Repositories.Interfaces;
@@ -23,6 +24,22 @@ namespace Bookstore.Application.Repositories.Implementations
                 Publisher = bo.Book.Publisher,
                 ImageUrl = bo.Book.ImageUrl,
                 PublishedIn = bo.Book.PublishedIn.ToString("g"),
-            }).ToListAsync(cancellationToken); 
+            }).ToListAsync(cancellationToken);
+
+        public async Task<ICollection<BookResponse>> GetAllByFilter(GetAllBookQuery query, Func<Book, BookResponse> map, CancellationToken cancellationToken)
+        {
+            IQueryable<Book> bookQuery = _context.Books.AsQueryable();
+
+            if (!string.IsNullOrEmpty(query.Title))
+                bookQuery = bookQuery.Where(x => x.Title.StartsWith(query.Title)).AsQueryable();
+
+            if (query.PublicationDateFrom is not null)
+                bookQuery = bookQuery.Where(x => x.PublishedIn >= query.PublicationDateFrom).AsQueryable();
+            if (query.PublicationDateTo is not null)
+                bookQuery = bookQuery.Where(x => x.PublishedIn <= query.PublicationDateTo).AsQueryable();
+
+            List<Book> books = await bookQuery.ToListAsync();
+            return books.Select(map).ToList();
+        }
     }
 }

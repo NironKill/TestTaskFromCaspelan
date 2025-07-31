@@ -11,7 +11,7 @@ namespace Bookstore.Application.Handlers.Books.Queries.GetAll
         public GetAllBookHandler(IBookRepository book) => _book = book;
 
         public async Task<ICollection<BookResponse>> Handle(GetAllBookQuery request, CancellationToken cancellationToken) =>
-            await _book.GetAll(entity => new BookResponse
+            await _book.GetAllByFilter(request, entity => new BookResponse
             {
                 Id = entity.Id,
                 Author = entity.Author,
